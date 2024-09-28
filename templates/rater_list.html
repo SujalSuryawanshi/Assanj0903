@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<div class="sort-buttons">
+    <a href="?sort_by=likes" class="sort-button {% if sort_by == 'likes' %}active{% endif %}">Sort by Likes | </a>
+    <a href="?sort_by=ratings" class="sort-button {% if sort_by == 'ratings' %}active{% endif %}">Sort by Ratings |</a>
+</div>
+<div class="reel-container">
+    {% for rater in raters %}
+    <div class="reel" id="rater-{{ rater.id }}">
+        <img src="{{ rater.img_link }}" alt="{{ rater.name }}" class="reel-item">
+        <div class="infosys">
+            <h2 class="anton-regular">{{ rater.name }}</h2>
+            <p>Price: {{ rater.price }}</p>
+            <p>{{ rater.description }}</p>
+            <a href="{{ rater.aff_link }}" target="_blank" class='btn btn-outline-primary'>Buy Now</a>
+            <p id="rating-{{ rater.id }}">Reviews: {{ rater.average_rating|floatformat:1 }}({{ rater.number_of_reviews }} Reviews)</p>          
+            <!-- Five-Star Rating -->
+            <p>What stars do you think I could be?🤔</p>
+            {% if user.is_authenticated %}
+                <div class="star-rating" id="star-rating-{{ rater.id }}">
+                    {% for i in "12345" %}
+                    <span class="star" data-value="{{ forloop.counter }}" onclick="rateRater({{ rater.id }}, {{ forloop.counter }})">
+                        &#9733;
+                    </span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <a class="btn btn-outline-primary" href="{% url 'login' %}">Login to review</a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
+
+
+{% block script %}
+<script>
+    function likeRater(raterId) {
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        fetch(`/like/${raterId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById(`likes-${raterId}`).innerText = `Likes: ${data.total_likes}`;
+        });
+    }
+
+    function rateRater(raterId, rating) {
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(`/review/${raterId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            body: new URLSearchParams({
+                'rating': rating
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.average_rating) {
+                document.getElementById(`rating-${raterId}`).innerText = `Rating: ${data.average_rating}`;
+            }
+            // Highlight the correct number of stars
+            const stars = document.querySelectorAll(`#star-rating-${raterId} .star`);
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('selected');
+                } else {
+                    star.classList.remove('selected');
+                }
+            });
+        });
+    }
+</script>
+
+{% endblock script %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    <h1 class='text-center'>Confirm Deletion<br>{{menu_item.owner}}</h1>
+    <p class='text-center'>Are you sure you want to delete the menu item "{{ menu_item.name }}"?</p>
+    <form method="post" class='text-center'>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'detail' name=menu_item.owner %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock content %}

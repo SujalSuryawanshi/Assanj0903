@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<h2 class="anton-regular">Profile Page</h2>
+<br>
+
+<h2 class="anton-regular">Name:</h2>
+<h3 class="anton-regular">
+    {{ profile_user.username }}
+</h3>
+<br>
+
+<h2 class="anton-regular">First_name:</h2>
+<h3 class="anton-regular">
+ {{ profile_user.first_name }}
+</h3>
+<br>
+
+<h2 class="anton-regular">Last_name:</h2>
+<h3 class="anton-regular">
+    {{ profile_user.last_name }}
+</h3>
+<br>
+
+<h2 class="anton-regular">Email:</h2> 
+<h3 class="anton-regular">
+    {{ profile_user.email }}
+</h3>
+<br>
+<br>
+<div class='menu-title'>
+    <a href={% url "edit_profile" %} class='btn btn-success'>Edit Profile</a>
+</div>
+<div class="text-center">
+  <form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-primary">Logout</button>
+  </form>
+</div>
+<br>
+<br>
+<h4 class="anton-regular">Search Users</h4>
+<br>
+<form method="get" class="anton-regular" action="{% url 'search_users' %}">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+<br>
+
+<h4 class="anton-regular">Friend Requests Sent</h4>
+<br>
+<ul>
+    {% for request in friend_requests_sent %}
+    <li class="anton-regular">{{ request.to_user.username }} - 
+        <form method="post" action="{% url 'delete_friend_request' %}" style="display:inline;">{% csrf_token %}
+            <input type="hidden" name="request_id" value="{{ request.id }}">
+            <button type="submit" class="btn btn-warning">Cancel Request</button>
+        </form>
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+
+<h4 class="anton-regular">Friend Requests Received</h4>
+<br>
+<ul>
+    {% for request in friend_requests_received %}
+    <li class="anton-regular">{{ request.from_user.username }} - 
+        <form method="post" action="{% url 'accept_friend_request' %}" style="display:inline;">{% csrf_token %}
+            <input type="hidden" name="request_id" value="{{ request.id }}">
+            <button type="submit" class="btn btn-success">Accept</button>
+        </form>
+        <form method="post" action="{% url 'delete_friend_request' %}" style="display:inline;">{% csrf_token %}
+            <input type="hidden" name="request_id" value="{{ request.id }}">
+            <button type="submit" class="btn btn-danger">Decline</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+<h4 class="anton-regular">Friends</h4>
+<br>
+<ul class='Menu-title'>
+    {% for friend in friends %}
+        {% comment %} <li class="anton-regular">{{ friend.username }}</li> {% endcomment %}
+        <a href="{% url 'user_profile' friend.username %}">{{ friend.username }}'s Profile</a><br>
+    {% endfor %}
+</ul>
+<br>
+<br>
+<br>
+<h2 class='anton-regular'>Followed Stallers</h2>
+<ul>
+    {% for i in followed_stallers %}
+        <li class="Menu-title"><a href="{% url 'detail' i.name %}">{{ i.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

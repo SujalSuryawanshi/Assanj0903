@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load star_rating %}
+{% load embed_video_tags %}
+
+{% block title %}
+{{ stalls }}
+{% endblock title %}
+{% block description %}We got the perfect result for you for searching {{category}} {% endblock description %}
+{% block keywords %} {{category}}, assanj {{category}}, {{category}} on assanj, categories on assanj {% endblock keywords %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div class='description'>
+<form method="get" action="" class="form-inline my-2 my-lg-0">
+  <div class="form-group">
+      <select name="sort_by" id="sort_by" onchange="this.form.submit()" class="form-control">
+          <option value="">Select</option>
+          <option value="ratings_high_to_low" {% if sort_by == 'ratings_high_to_low' %}selected{% endif %}>Ratings High to Low</option>
+          <option value="ratings_low_to_high" {% if sort_by == 'ratings_low_to_high' %}selected{% endif %}>Ratings Low to High</option>
+          <option value="followers_high_to_low" {% if sort_by == 'followers_high_to_low' %}selected{% endif %}>Followers High to Low</option>
+          <option value="followers_low_to_high" {% if sort_by == 'followers_low_to_high' %}selected{% endif %}>Followers Low to High</option>
+      </select>
+  </div>
+</form>
+<br>
+{% for cats in category %}  
+<a href="{% url "category" cats.cat_name %}">
+  <button type="button" class="btn btn-warning">{{cats.cat_name}}</button>
+</a>
+{% endfor %}
+<br>
+<br>
+<div class="row row-cols-1 row-cols-md-3">
+  {% for stalls in stalls_with_follow_count %}
+  <div class="card mb-4">
+    <div class="card">
+      {% video stalls.stall.video '100% x 80%' %}    
+      <h5 class="card-title">{{stalls.stall.name}}</h5>
+      <h6 class="home-card-text">{{stalls.stall.address}}</h6>
+      <h6 class="home-card-text">{{stalls.stall.timings}}</h6>
+      <h6 class="home-card-text">{{stalls.stall.egit}}</h6>
+      <h6 class="home-card-text">{{ stalls.stall.rating|star_rating }} ({{ stalls.stall.rating }})</h6>
+      <h6 class="home-card-text">Followers: {{stalls.follow_count}}</h6>
+      <a href="{% url 'detail' stalls.stall.name %}" class="btn btn-primary">Look</a>    
+    </div>
+  </div>
+  <br>
+  <br>
+  {% endfor %} 
+</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<h1 class="text-center">Search Results</h1>
+
+<form method="get" class="text-center" action="{% url 'search_users' %}">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-warning">Search</button>
+</form>
+<br>
+<ul>
+    {% for user in results %}
+    <li class="text-center">{{ user.username }} - 
+        <form method="post" action="{% url 'send_friend_request' %}" style="display:inline;">{% csrf_token %}
+            <input type="hidden" name="to_user" value="{{ user.username }}">
+            <button type="submit" name="send_request" value="1" class="btn btn-warning">Send Friend Request</button>
+        </form>
+    </li>
+    <br>
+    {% endfor %}
+</ul>
+
+{% endblock %}

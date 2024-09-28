@@ -1,0 +1,84 @@
+{% extends "base.html" %} 
+{% block content %} 
+{% load custom_filters %}
+{% load star_rating %}
+{% load crispy_forms_tags %}
+{% load has_group %}
+{% load socialaccount %}
+
+{% load embed_video_tags %}
+{% load has_group %}
+<br>
+<br>
+<br>
+<br>  
+<div class='description'>
+<h1 class="anton-regular">Results for {{ query }}</h1>
+<form method="get" action="" class="form-inline my-2 my-lg-0">
+  <div class="form-group">
+      <select name="sort_by" id="sort_by" onchange="this.form.submit()" class="form-control">
+          <option value="">Select</option>
+          <option value="ratings_high_to_low" {% if sort_by == 'ratings_high_to_low' %}selected{% endif %}>Ratings High to Low</option>
+          <option value="ratings_low_to_high" {% if sort_by == 'ratings_low_to_high' %}selected{% endif %}>Ratings Low to High</option>
+          <option value="followers_high_to_low" {% if sort_by == 'followers_high_to_low' %}selected{% endif %}>Followers High to Low</option>
+          <option value="followers_low_to_high" {% if sort_by == 'followers_low_to_high' %}selected{% endif %}>Followers Low to High</option>
+      </select>
+  </div>
+</form>
+
+{% if stallers %}
+<div class="row row-cols-1 row-cols-md-3">
+  {% for stalls in stalls_with_follow_count %}
+    <div class="card mb-4">
+      <div class="card">
+            {% video stalls.stall.video '100% x 80%' %}    
+            <h5 class="card-title">{{stalls.stall.name}}</h5>
+            <h6 class="home-card-text">{{stalls.stall.address}}</h6>
+            <h6 class="home-card-text">{{stalls.stall.timings}}</h6>
+            <h6 class="home-card-text">{{stalls.stall.egit}}</h6>
+            <h6 class="home-card-text">{{ stalls.stall.rating|star_rating }} ({{ stalls.stall.rating }})</h6>
+            <h6 class="home-card-text">Followers: {{stalls.follow_count}}</h6>
+            <a href="{% url 'detail' stalls.stall.name %}" class="btn btn-primary">Look</a>    
+      </div>
+    </div>
+    <br>
+    <br>
+  {% endfor %} 
+  </div>
+{% endif %}
+{% if menuitems %}
+    {% for item in menuitems %}
+            <div class="carder">
+            <div class="image">
+                <img src="{{item.menu_photo.url}}" alt="{{ item.name }}">
+            </div>
+            <div class="info">
+              <h5 class="card-title">{{item.name}}</h5>
+              <div class='premium-title'>
+                <h7 class="menu-text">Premium->{{item.premium_price}}</h7>
+              </div>
+              <h7 class="menu-text">Regular->{{item.normal_price}}</h7><br>
+              <h7 class="menu-text">{{ item.rating|star_rating }} <br><small>({{ menu_rating_counts|get_item:item.id }} ratings)</small></h7>
+              <br>
+              <br>
+              <a href="{% url 'detail' item.owner %}" class="btn btn-primary">Look for Shop</a> 
+              {% if user.username|lower == stall.owner.username|lower %}
+                <br>
+                <a href="{% url 'delete_menu_item' item.id %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'edit_menu_item' item.id %}" class="btn btn-primary">Edit</a>
+              {% endif %}
+            </div>
+          </div>
+          <br>
+          <br>
+      </div>
+    {% endfor %}
+{% else %}
+<br>
+<br>
+<br>
+<br>
+<h1 class='item-title'> That's all we have for now!</h1>
+</div>
+{% endif %}
+{% endblock content %}

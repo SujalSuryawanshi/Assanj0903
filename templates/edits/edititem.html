@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <h1 class='text-center'>Edit Menu Item</h1>
+    <form method="post" enctype="multipart/form-data" class='text-center'>
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        <a href="{% url 'detail' name=menu_item.owner %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<br>
+<br>
+<div class="reel-container">
+    {% for rater in raters %}
+    <div class="reel" id="rater-{{ rater.id }}">
+        <div class="info">
+            <h2>{{ rater.name }}</h2>
+            <p>Price: {{ rater.price }}</p>
+            <p>{{ rater.description }}</p>
+            <a href="{{ rater.aff_link }}" target="_blank">Buy Now</a>
+            <p id="likes-{{ rater.id }}">Likes: {{ rater.total_likes }}</p>
+            <p id="rating-{{ rater.id }}">Average Rating: {{ rater.average_rating|floatformat:2 }}</p>
+
+            <!-- Like Button -->
+            <button onclick="likeRater({{ rater.id }})">
+                {% if user in rater.likes.all %}
+                    Unlike
+                {% else %}
+                    Like
+                {% endif %}
+            </button>
+
+            <!-- Star Rating -->
+            <div class="star-rating" id="star-rating-{{ rater.id }}">
+                {% for i in "12345" %}
+                <span class="star" data-value="{{ forloop.counter }}" onclick="rateRater({{ rater.id }}, {{ forloop.counter }})">
+                    &#9733;
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+        <img src="{{ rater.img_link }}" alt="{{ rater.name }}" class="reel-item">
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
+
+{% block script %}
+<script>
+    let startY;
+
+    function likeRater(raterId) {
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        fetch(`/like/${raterId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById(`likes-${raterId}`).innerText = `Likes: ${data.total_likes}`;
+        });
+    }
+
+    function rateRater(raterId, rating) {
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fetch(`/review/${raterId}/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            body: new URLSearchParams({
+                'rating': rating
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.average_rating) {
+                document.getElementById(`rating-${raterId}`).innerText = `Average Rating: ${data.average_rating}`;
+            }
+            // Highlight the correct number of stars and make them shine
+            const stars = document.querySelectorAll(`#star-rating-${raterId} .star`);
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('selected');
+                    star.classList.add('shine');
+                } else {
+                    star.classList.remove('selected');
+                    star.classList.remove('shine');
+                }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const reels = document.querySelectorAll('.reel');
+
+        reels.forEach((reel, index) => {
+            reel.addEventListener('touchstart', (e) => {
+                startY = e.touches[0].clientY;
+            });
+
+            reel.addEventListener('touchend', (e) => {
+                const endY = e.changedTouches[0].clientY;
+                const deltaY = startY - endY;
+
+                if (deltaY > 50 && index < reels.length - 1) {
+                    reels[index + 1].scrollIntoView({ behavior: 'smooth' });
+                } else if (deltaY < -50 && index > 0) {
+                    reels[index - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    });
+</script>
+
+{% endblock script %}

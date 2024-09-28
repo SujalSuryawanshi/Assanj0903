@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+Profile page
+{% endblock title %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<h3 class='Menu-title'>Your Friend: {{ usered.username }}'s Profile</h3>
+<h3 class='Menu-title'>Followed Stallers</h3>
+<ul>
+    {% for staller in followed_stallers %}
+       <h3> <li class="Menu-title"><a href="{% url 'detail' staller.name %}">{{ staller.name }}</a></li><h3>
+    {% endfor %}
+</ul>
+{% endblock content %}

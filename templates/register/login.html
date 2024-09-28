@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% block title %}Assanj Login page{% endblock title %}
+{% block description %}Login with Assanj and start surfing the streets right now!{% endblock description %}
+{% block keywords %}assanj login, assanj login, login with street shop, login with street stalls{% endblock keywords %}
+<br>
+<br>
+<br>
+<br>
+    <div class="container-sm">
+      <div class='container'>
+        <h1 class='Menu-title'>Log In</h1>
+        <br>
+        <form method="post" class='Menu-title'>
+          {% csrf_token %}
+          {{ form|crispy }}
+          <p>Don't have an account yet?    
+            <a href={% url 'register'%}>Register<br><br>
+          </p>
+          <button type="submit" class="btn btn-primary">Log In</button>
+          <p>  
+            <a href={% url 'password_reset'%}>Forgot password?<br><br>
+          </p>
+        </form>
+      </div>
+        <br>
+    </div>
+{% endblock content %}

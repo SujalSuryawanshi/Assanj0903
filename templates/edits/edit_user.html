@@ -1,0 +1,25 @@
+<!-- edit_profile.html -->
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class='space'>
+    
+</div>
+<br>
+<br>
+<br>
+<h2 class='anton-regular'>Edit Profile</h2>
+<form method="POST" class="anton-regular">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class='btn btn-success'>Save changes</button>
+</form>
+{% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

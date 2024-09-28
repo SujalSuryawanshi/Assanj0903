@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load embed_video_tags %}
+{% load custom_filters %}
+{% load star_rating %}
+{% load crispy_forms_tags %}
+{% load has_group %}
+{% load socialaccount %}
+{% block title %}
+{{stall.name}}
+{% endblock title %}
+{% block description %}We searched across the streets for you and I think this is what you wanted. Results for: {{ stall.name }} {% endblock description %}
+{% block keywords %} {{stall.name}}, {{stall.name}}, offers on {{stall.name}}, new offers {{stall.name}},  {% endblock keywords %}
+{% block content %}
+<br>
+<br>
+<br>
+<br>
+<div class='description'>
+<a href="{% url 'offers' name=stall.name %}">
+  <button class="btnry">Look for Brand new offers now <span class="ribbons">NEW</span></button>
+</a>
+{% if user.username|lower == stall.owner.username|lower %}
+<button class="btnry">
+  <a href="{% url 'new_offer' staller_name=stall.name %}">Add New Offer</a>
+</button>
+{% endif %}
+<br>
+<br>
+<div class='text-center'>
+{% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+{% endif %}
+</div>
+<div class="card mb-3">
+  {% video stall.video '100% x 200%' %}
+  <div class="card-body">
+      <h1 class='anton-regular'>{{stall.name}}</h1>
+      <p class="home-card-text">Address: {{stall.address}}</p>
+      <p class="home-card-text">Timings: {{stall.timings}}</p>
+      <p class="home-card-text">Followers: {{follow_count}}</p>
+      <p class='home-card-text'>{{ stall.rating|star_rating }} ({{ staller_rating_count }} ratings)</p>      
+      {% if user.is_authenticated %}
+      <h3 class='home-card-text'>Rate this Staller</h3>
+          {% if form %}
+          <form method="post" action="{% url 'detail' name=stall.name %}" class='home-card-text'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class='btn btn-info'>Submit Rating</button>
+         </form>        
+          {% else %}
+            <p class='home-card-text'>You need to be logged in to rate this staller.</p>
+          {% endif %}
+
+      {% if is_following %}
+      You are following this staller.
+      <form method="post" action="{% url 'unfollow_staller' stall.name %}" class='home-card-text'>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Unfollow</button>
+      </form>
+      {% else %}
+      <p class='home-card-text'>You are not following this staller.</p>
+      <form method="post" action="{% url 'follow_staller' stall.name %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Follow</button>
+      </form>
+      {% endif %}
+      {% else %}
+      <a class="btn btn-primary" href="{% url 'login' %}" class="alert-link">Login to follow</a>
+      {% endif %}
+      <p class="card-text"><small class="text-muted">Contact: {{stall.contact}}</small></p>
+      {% if user.is_authenticated %}
+      {% if user.username|lower == stall.owner.username|lower %}
+          <a href="{% url 'edit_info' stall.pk %}" class='btn btn-primary'>Edit Details</a>
+      {% endif %}
+  {% endif %}
+    </div>
+  </div>
+  
+  <h1 class="anton-regular">Items<br></h1>
+    {% if user.is_authenticated %}
+      {% if user.username|lower == stall.owner.username|lower %}
+      <h1 class="item-title"> <a href="{% url 'add_menu_item' stall.id %}">Add Item</a></h1>
+      <h1 class="item-title"> <a href="{% url 'add_foo_category' %}">Add Category</a></h1>
+      {% endif %}
+  {% endif %}
+
+  {% for category, items in menu_items_by_category.items %}
+  <div class="category">
+    <h2 class='anton-regular'>{{ category.foo_name }}</h2>  <!-- Assuming Foo_Category has a name field -->
+    {% for item in items %}
+ <div class="carder">
+    <div class="image">
+        <img src="{{item.menu_photo.url}}" alt="{{ item.name }}">
+    </div>
+    <div class="info">
+        <h5 class='anton-regular'>{{ item.name }}</h5>
+        <h7 class="home-card-text">Price : {{item.normal_price}}</h7><br>
+        <h7 class="home-card-text">{{ item.rating|star_rating }} <br><small>({{ menu_rating_counts|get_item:item.id }} ratings)</small></h7>
+        <div class='home-card-text'>
+            <p>
+                <small>
+                    {{item.description}}
+                </small>
+            </p>
+        </div>
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'detail' name=stall.name %}">
+            {% csrf_token %}
+            {{ menu_rating_forms|get_item:item.id|crispy }}
+            <button type="submit" name="menu_item_id" value="{{ item.id }}" class='btn btn-info'>Submit</button>
+        </form>
+        {% else %}
+        <br><br><a class="btn btn-primary" href="{% url 'login' %}" class="alert-link">Login to rate</a>
+        {% endif %}
+        {% if user.username|lower == stall.owner.username|lower %}
+        <br>
+        <a href="{% url 'delete_menu_item' item.id %}" class="btn btn-danger">Delete</a>
+        <a href="{% url 'edit_menu_item' item.id %}" class="btn btn-primary">Edit</a>
+        {% endif %}
+        </div>
+    </div>
+      <br>
+      <br>
+    {% endfor %}
+  </div>
+{% endfor %}
+</div>
+
+{% endblock content %}

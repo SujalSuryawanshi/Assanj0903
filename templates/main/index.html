@@ -1,0 +1,190 @@
+{% extends "base.html" %} 
+{% block content %} 
+{% load socialaccount %}
+{% load star_rating %}
+{% load embed_video_tags %}
+{% load has_group %}
+{% block description %}Look for the style and authenticity, don't hunt quality. Just a mere illusion for spending more instead of spending great!{% endblock description %}
+
+<br />
+<br>
+<br>
+
+<div class='description'>
+{% for cats in cat %}  
+<a href="{% url "category" cats.cat_name %}">
+  <button type="button" class="btn-off">{{cats.cat_name}}</button>
+</a>
+{% endfor %}
+<br>
+<br>
+<form method="get" action="" class="form-inline my-2 my-lg-0">
+  <div class="form-group">
+      <select name="sort_by" id="sort_by" onchange="this.form.submit()" class="form-control">
+          <option value="">Sort By</option>
+          <option value="ratings_high_to_low" {% if sort_by == 'ratings_high_to_low' %}selected{% endif %}>Ratings High to Low</option>
+          <option value="ratings_low_to_high" {% if sort_by == 'ratings_low_to_high' %}selected{% endif %}>Ratings Low to High</option>
+          <option value="followers_high_to_low" {% if sort_by == 'followers_high_to_low' %}selected{% endif %}>Followers High to Low</option>
+          <option value="followers_low_to_high" {% if sort_by == 'followers_low_to_high' %}selected{% endif %}>Followers Low to High</option>
+      </select>
+  </div>
+</form>
+</div>
+<br>
+<br>
+<div class='description'>
+    <h1 class='desc-heading'> Popular</h1>
+    <div class='desc'>
+      <p>
+        <small>
+          Look for all the popular stalls in your town, and distance is just a number it's the quality and style that you seek!!
+        </small>
+      </p>
+    </div>
+</div>
+<div class="slider slider1">
+  <div class="slides slides1">
+    {% for i in popu_stalls_with_follow_count %}
+      <div class="slide slide1">
+        <div class="card mb-4">
+            {% video i.popu_stall.video '100% x 80%' %}    
+            <h5 class="card-title">{{i.popu_stall.name}}</h5>
+            <h6 class="home-card-text">{{i.popu_stall.address}}</h6>
+            <h6 class="home-card-text">{{i.popu_stall.timings}}</h6>
+            <h6 class="home-card-text">{{i.popu_stall.egit}}</h6>
+            <h6 class="home-card-text">{{ i.popu_stall.rating|star_rating }} ({{ i.popu_stall.rating }})</h6>
+            <h6 class="home-card-text">Followers: {{i.follow_count}}</h6>
+            <a href="{% url 'detail' i.popu_stall.name %}" class="btn btn-primary">Look</a>  
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="prev" onclick="prevSlide1()">&#10094;</button>
+  <button class="next" onclick="nextSlide1()">&#10095;</button>
+</div>
+<br>
+<br>
+<div class='description'>
+  <h1 class='desc-heading'> All stalls</h1>
+  <div class='desc'>
+    <p>
+      <small>
+        Know each and every market that exists in your town!!
+      </small>
+    </p>
+  </div>
+</div>
+<div class="slider slider2">
+  <div class="slides slides2">
+    {% for i in stalls_with_follow_count %}
+      <div class="slide slide2">
+        <div class="card mb-4">
+            {% video i.stall.video '100% x 80%' %}    
+            <h5 class="card-title">{{i.stall.name}}</h5>
+            <h6 class="home-card-text">{{i.stall.address}}</h6>
+            <h6 class="home-card-text">{{i.stall.timings}}</h6>
+            <h6 class="home-card-text">{{i.stall.egit}}</h6>
+            <h6 class="home-card-text">{{ i.stall.rating|star_rating }} ({{ i.stall.rating }})</h6>
+            <h6 class="home-card-text">Followers: {{i.follow_count}}</h6>
+            <a href="{% url 'detail' i.stall.name %}" class="btn btn-primary">Look</a>  
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="prev" onclick="prevSlide2()">&#10094;</button>
+  <button class="next" onclick="nextSlide2()">&#10095;</button>
+</div>
+{% endblock content %}  
+{% block script %}
+<script>
+  $(document).ready(function(){
+    // Header Slider
+    $(".zXyAbC").owlCarousel({
+        items: 1,
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        dots: true,
+        nav: false,
+    });
+
+    // Product Carousel
+    $(".CjMvWz").owlCarousel({
+        items: 4,
+        loop: true,
+        margin: 20,
+        autoplay: true,
+        autoplayTimeout: 4000,
+        dots: false,
+        nav: true,
+        navText: ["<i class='fas fa-chevron-left'></i>", "<i class='fas fa-chevron-right'></i>"],
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 2
+            },
+            1000: {
+                items: 4
+            }
+        }
+    });
+});
+</script>
+
+<script> let currentSlide1 = 0;
+  const slides1 = document.querySelectorAll('.slides1 .slide1');
+  const totalSlides1 = slides1.length;
+
+  function updateSlidePosition1() {
+    const slideWidth1 = slides1[currentSlide1].clientWidth;
+    document.querySelector('.slides1').style.transform = `translateX(-${slideWidth1 * currentSlide1}px)`;
+  }
+
+  function nextSlide1() {
+    currentSlide1 = (currentSlide1 + 1) % totalSlides1;
+    updateSlidePosition1();
+  }
+
+  function prevSlide1() {
+    currentSlide1 = (currentSlide1 - 1 + totalSlides1) % totalSlides1;
+    updateSlidePosition1();
+  }
+
+  window.addEventListener('resize', updateSlidePosition1);
+
+  // Slider 2
+  let currentSlide2 = 0;
+  const slides2 = document.querySelectorAll('.slides2 .slide2');
+  const totalSlides2 = slides2.length;
+
+  function updateSlidePosition2() {
+    const slideWidth2 = slides2[currentSlide2].clientWidth;
+    document.querySelector('.slides2').style.transform = `translateX(-${slideWidth2 * currentSlide2}px)`;
+  }
+
+  function nextSlide2() {
+    currentSlide2 = (currentSlide2 + 1) % totalSlides2;
+    updateSlidePosition2();
+  }
+
+  function prevSlide2() {
+    currentSlide2 = (currentSlide2 - 1 + totalSlides2) % totalSlides2;
+    updateSlidePosition2();
+  }
+
+  window.addEventListener('resize', updateSlidePosition2);
+  $(document).ready(function(){
+    // Header Slider
+    $(".zXyAbC").owlCarousel({
+        items: 1,
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        dots: true,
+        nav: false,
+    });
+  })
+</script>
+{% endblock script %}
