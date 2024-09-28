@@ -11,7 +11,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
 SECRET_KEY = env('DJANGO_SECRET_KEY')
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['assanj.in', 'www.assanj.in','*']
 
