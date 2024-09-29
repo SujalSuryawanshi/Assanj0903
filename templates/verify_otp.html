@@ -6,6 +6,11 @@
 <br>
 <br>
 <br>
+{% if messages %}
+    {% for message in messages %}
+        <div>{{ message }}</div>
+    {% endfor %}
+{% endif %}
 <div class='container'>
 <h2 class='Menu-title'>Verify OTP</h2>
 <form method="POST">
