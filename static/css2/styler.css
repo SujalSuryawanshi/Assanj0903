@@ -9,8 +9,12 @@
 
 body{
     background-image: url('https://img.pikbest.com/wp/202345/violet-pink-abstract-neon-background-in-shades-of-and-blue-3d-design_9615901.jpg!sw800');
-    background-size:auto;
     background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    width: 100%;
   }
 nav{
     position: fixed;
