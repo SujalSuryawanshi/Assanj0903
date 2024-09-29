@@ -302,6 +302,27 @@ def verify_otp(request, user_id):
     return render(request, 'verify_otp.html',{'form': form})
 
 
+##ADD
+def resend_otp_view(request, user_id):
+    try:
+        user = CustomUser.objects.get(id=user_id)
+        otp = get_random_string(length=6, allowed_chars='0123456789')
+        EmailVerification.objects.update_or_create(user=user, defaults={'otp': otp})
+
+        # Send the new OTP via email
+        send_mail(
+            'Your OTP Code',
+            f'Your new OTP is: {otp}',
+            'from@example.com',  # Replace with your sender email
+            [user.email],
+            fail_silently=False,
+        )
+        messages.success(request, 'OTP has been resent to your email.')
+    except CustomUser.DoesNotExist:
+        messages.error(request, 'User does not exist.')
+
+    return redirect('verify_otp', user_id=user_id)  
+
 
 def login_view(request):
     if request.method == 'POST':
