@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import Home,login_view, logout_view,send_friend_request, accept_friend_request, delete_friend_request,ListView,FollowStallerView,UnfollowStallerView,register,cat_view
+from .views import Home,login_view, logout_view,send_friend_request, accept_friend_request, delete_friend_request,ListView,FollowStallerView,UnfollowStallerView,register,cat_view, resend_otp
 from .views import EditPost,add_menu_item, delete_menu_item, edit_menu_item,future,add_foo_category,OfferView, NewOfferView, EditOfferView, delete_offer, like_rater, review_rater, rater_list, edit_profile
 from . import views
 urlpatterns = [
     path("",Home.as_view(), name='home' ),
     path('register/', views.register, name='register'),
     path('verify-otp/<int:user_id>/', views.verify_otp, name='verify_otp'),
+     path('resend-otp/', resend_otp_view, name='resend_otp'),
     path("place/<slug:name>/", ListView.as_view(), name="detail"),
     path('accounts/login/', login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
