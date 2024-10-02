@@ -25,7 +25,7 @@ class OTPForm(forms.Form):
 class CustomUserEditForm(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name']  # Add other fields if needed
+        fields = ['username', 'first_name', 'last_name']  # Add other fields if needed
 
 class SignInForm(forms.Form):
     username = forms.CharField(max_length=150, required=True)
