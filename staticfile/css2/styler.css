@@ -1092,3 +1092,39 @@ form {
   font-size: 16px;
   margin-bottom: 15px;
 }
+.anton-regular2 {
+  color: rgb(0, 0, 0);
+  text-decoration: underline;
+  text-align: center;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.profile-section {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info h3 {
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-info p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0;
+}
+
+.btn-outline-primary {
+  margin-top: 10px;
+}
+
+
+
+
