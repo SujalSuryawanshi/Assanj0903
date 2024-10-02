@@ -7,40 +7,42 @@
 <br>
 <h2 class="anton-regular">Profile Page</h2>
 <br>
+<div class="container">
+    <div class="profile-section">
+        <!-- Profile Header -->
+        <h2 class="anton-regular2">Profile</h2>
+        <hr>
+        
+        <!-- User Info -->
+        <div class="profile-info">
+            <h3 class="anton-regular">Name</h3>
+            <p class="anton-regular">{{ profile_user.username }}</p>
 
-<h2 class="anton-regular">Name:</h2>
-<h3 class="anton-regular">
-    {{ profile_user.username }}
-</h3>
-<br>
+            <h3 class="anton-regular">First Name</h3>
+            <p class="anton-regular">{{ profile_user.first_name }}</p>
 
-<h2 class="anton-regular">First_name:</h2>
-<h3 class="anton-regular">
- {{ profile_user.first_name }}
-</h3>
-<br>
+            <h3 class="anton-regular">Last Name</h3>
+            <p class="anton-regular">{{ profile_user.last_name }}</p>
 
-<h2 class="anton-regular">Last_name:</h2>
-<h3 class="anton-regular">
-    {{ profile_user.last_name }}
-</h3>
-<br>
-
-<h2 class="anton-regular">Email:</h2> 
-<h3 class="anton-regular">
-    {{ profile_user.email }}
-</h3>
-<br>
-<br>
-<div class='menu-title'>
-    <a href={% url "edit_profile" %} class='btn btn-success'>Edit Profile</a>
+            <h3 class="anton-regular">Email</h3>
+            <p class="anton-regular">{{ profile_user.email }}</p>
+        </div>
+        
+        <!-- Edit Profile Button -->
+        <div class="text-center my-4">
+            <a href="{% url 'edit_profile' %}" class="btn btn-success">Edit Profile</a>
+        </div>
+        
+        <!-- Logout Button -->
+        <div class="text-center">
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-primary">Logout</button>
+            </form>
+        </div>
+    </div>
 </div>
-<div class="text-center">
-  <form action="{% url 'logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-outline-primary">Logout</button>
-  </form>
-</div>
+
 <br>
 <br>
 <h4 class="anton-regular">Search Users</h4>
