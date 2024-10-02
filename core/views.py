@@ -604,6 +604,7 @@ def custom_404(request, exception):
 from django.contrib.auth.views import PasswordResetView
 
 class CustomPasswordResetView(PasswordResetView):
+    email_template_name = 'register/custom_password_reset_email.html'
     def get_email_options(self):
         options = super().get_email_options()
         # Set your custom domain here
