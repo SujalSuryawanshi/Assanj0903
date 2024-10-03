@@ -68,7 +68,7 @@ class Foo_Category(models.Model):
 
 class MenuItems(models.Model):
     owner = models.ForeignKey(Staller, on_delete=models.CASCADE, null=True, related_name='menu_items')
-    menu_photo = models.ImageField(upload_to='static/images/menu_pics/')
+    menu_photo = models.ImageField(upload_to='static/images/menu_pics/', null=True, blank=True)
     name = models.CharField(max_length=200)
     foo_cat = models.ForeignKey(Foo_Category, on_delete=models.SET_NULL, null=True)
     normal_price = models.IntegerField(default=100)
