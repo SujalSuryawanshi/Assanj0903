@@ -58,10 +58,7 @@
             </div>
             <div class="info">
               <h5 class="card-title">{{item.name}}</h5>
-              <div class='premium-title'>
-                <h7 class="menu-text">Premium->{{item.premium_price}}</h7>
-              </div>
-              <h7 class="menu-text">Regular->{{item.normal_price}}</h7><br>
+              <h7 class="menu-text">Price: {{item.normal_price}}</h7><br>
               <h7 class="menu-text">{{ item.rating|star_rating }} <br><small>({{ menu_rating_counts|get_item:item.id }} ratings)</small></h7>
               <br>
               <br>
