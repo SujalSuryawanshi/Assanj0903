@@ -57,10 +57,16 @@
                 {% endif %}
             </div>
             <div class="info">
-              <h5 class="card-title">{{item.name}}</h5>
-              <h7 class="menu-text">Price: {{item.normal_price}}</h7><br>
-              <h7 class="menu-text">{{ item.rating|star_rating }} <br><small>({{ menu_rating_counts|get_item:item.id }} ratings)</small></h7>
-              <br>
+               <h5 class='anton-regular'>{{ item.name }}</h5>
+               <h7 class="home-card-text">Price : {{item.normal_price}}</h7><br>
+                <h7 class="home-card-text">{{ item.rating|star_rating }} <br><small>({{ menu_rating_counts|get_item:item.id }} ratings)</small></h7>
+                <div class='home-card-text'>
+                    <p>
+                        <small>
+                            {{item.description}}
+                        </small>
+                    </p>
+                </div>
               <br>
               <a href="{% url 'detail' item.owner %}" class="btn btn-primary">Look for Shop</a> 
               {% if user.username|lower == stall.owner.username|lower %}
