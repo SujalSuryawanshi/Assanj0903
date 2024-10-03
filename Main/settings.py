@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'core.apps.CoreConfig',
     'users.apps.UsersConfig',
+    'storages',
 ]
 
 AUTHENTICATION_BACKENDS = (
