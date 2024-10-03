@@ -94,7 +94,11 @@
     {% for item in items %}
  <div class="carder">
     <div class="image">
-        <img src="{{item.menu_photo.url}}" alt="{{ item.name }}">
+        {% if item.menu_photo %}
+          <img src="{{ item.menu_photo.url }}" alt="{{ item.name }}">
+        {% else %}
+          <p>No image available</p> <!-- You can customize this message -->
+        {% endif %}
     </div>
     <div class="info">
         <h5 class='anton-regular'>{{ item.name }}</h5>
