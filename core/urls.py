@@ -35,6 +35,6 @@ urlpatterns = [
     path('like/<int:rater_id>/', views.like_rater, name='like_rater'),
     path('review/<int:rater_id>/', views.review_rater, name='review_rater'),
     path('edit-profile/', edit_profile, name='edit_profile'),
-
+    path('liker/<int:staller_id>/', views.like_staller, name='like_staller'),
 
     ]
