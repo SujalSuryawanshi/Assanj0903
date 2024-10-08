@@ -16,45 +16,50 @@
 <br>
 <br>
 <div class='description'>
-<a href="{% url 'offers' name=stall.name %}">
-  <button class="btnry">Look for Brand new offers now <span class="ribbons">NEW</span></button>
-</a>
-{% if user.username|lower == stall.owner.username|lower %}
-<button class="btnry">
-  <a href="{% url 'new_offer' staller_name=stall.name %}">Add New Offer</a>
-</button>
-{% endif %}
-<br>
-<br>
-<div class='text-center'>
-{% if messages %}
+  <a href="{% url 'offers' name=stall.name %}">
+    <button class="btnry">Look for Brand new offers now <span class="ribbons">NEW</span></button>
+  </a>
+  {% if user.username|lower == stall.owner.username|lower %}
+  <button class="btnry">
+    <a href="{% url 'new_offer' staller_name=stall.name %}">Add New Offer</a>
+  </button>
+  {% endif %}
+  <br>
+  <br>
+  <div class='text-center'>
+    {% if messages %}
     <ul>
       {% for message in messages %}
-        <li>{{ message }}</li>
+      <li>{{ message }}</li>
       {% endfor %}
     </ul>
-{% endif %}
-</div>
-<div class="card mb-3">
-  {% video stall.video '100% x 200%' %}
-  <div class="card-body">
+    {% endif %}
+  </div>
+  <div class="card mb-3">
+    {% video stall.video '100% x 200%' %}
+    <div class="card-body">
       <h1 class='anton-regular'>{{stall.name}}</h1>
       <p class="home-card-text">Address: {{stall.address}}</p>
       <p class="home-card-text">Timings: {{stall.timings}}</p>
       <p class="home-card-text">Followers: {{follow_count}}</p>
       <p class='home-card-text'>{{ stall.rating|star_rating }} ({{ staller_rating_count }} ratings)</p>      
+      <div id="staller-{{ stall.id }}">
+        <p>Unofficial Likes: <span id="like-count-{{ stall.id }}">{{ stall.likes }}</span></p>
+        <button onclick="likeStaller({{ stall.id }})" class='btn btn-success'>Like</button>
+      </div>
+      <br>
       {% if user.is_authenticated %}
       <h3 class='home-card-text'>Rate this Staller</h3>
-          {% if form %}
-          <form method="post" action="{% url 'detail' name=stall.name %}" class='home-card-text'>
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class='btn btn-info'>Submit Rating</button>
-         </form>        
-          {% else %}
-            <p class='home-card-text'>You need to be logged in to rate this staller.</p>
-          {% endif %}
-
+      {% if form %}
+      <form method="post" action="{% url 'detail' name=stall.name %}" class='home-card-text'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class='btn btn-info'>Submit Rating</button>
+      </form>        
+      {% else %}
+      <p class='home-card-text'>You need to be logged in to rate this staller.</p>
+      {% endif %}
+      
       {% if is_following %}
       You are following this staller.
       <form method="post" action="{% url 'unfollow_staller' stall.name %}" class='home-card-text'>
@@ -135,3 +140,32 @@
 </div>
 
 {% endblock content %}
+{% block script %}
+<script>
+  function likeStaller(stallerId) {
+    // Check local storage to see if the staller has already been liked
+    let likedStallers = JSON.parse(localStorage.getItem('likedStallers')) || [];
+
+    if (likedStallers.includes(stallerId)) {
+        alert('You have already liked this staller.'); // Alert user if they try to like again
+        return;
+    }
+
+    fetch(`/liker/${stallerId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById(`like-count-${stallerId}`).innerText = data.likes;
+
+        // Add the stallerId to the liked stallers in local storage
+        likedStallers.push(stallerId);
+        localStorage.setItem('likedStallers', JSON.stringify(likedStallers));
+    });
+}
+
+</script>
+{% endblock script %}
