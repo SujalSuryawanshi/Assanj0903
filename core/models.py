@@ -35,6 +35,7 @@ class Staller(models.Model):
     timings = models.CharField(max_length=14)
     rating = models.FloatField(default=0)
     keywords = models.CharField(max_length=1000, default='spicy', null=True)
+    likes = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
