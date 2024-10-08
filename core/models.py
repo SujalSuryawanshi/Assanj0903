@@ -157,5 +157,13 @@ class Review(models.Model):
 
 
 
+class UserLike(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    staller = models.ForeignKey(Staller, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'staller')  # Ensure a user can like the same staller only once
+
+
 
 
