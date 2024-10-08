@@ -43,10 +43,6 @@
       <p class="home-card-text">Timings: {{stall.timings}}</p>
       <p class="home-card-text">Followers: {{follow_count}}</p>
       <p class='home-card-text'>{{ stall.rating|star_rating }} ({{ staller_rating_count }} ratings)</p>      
-      <div id="staller-{{ stall.id }}">
-        <p>Unofficial Likes: <span id="like-count-{{ stall.id }}">{{ stall.likes }}</span></p>
-        <button onclick="likeStaller({{ stall.id }})" class='btn btn-success'>Like</button>
-      </div>
       <br>
       {% if user.is_authenticated %}
       <h3 class='home-card-text'>Rate this Staller</h3>
@@ -140,32 +136,4 @@
 </div>
 
 {% endblock content %}
-{% block script %}
-<script>
-  function likeStaller(stallerId) {
-    // Check local storage to see if the staller has already been liked
-    let likedStallers = JSON.parse(localStorage.getItem('likedStallers')) || [];
 
-    if (likedStallers.includes(stallerId)) {
-        alert('You have already liked this staller.'); // Alert user if they try to like again
-        return;
-    }
-
-    fetch(`/liker/${stallerId}/`, {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById(`like-count-${stallerId}`).innerText = data.likes;
-
-        // Add the stallerId to the liked stallers in local storage
-        likedStallers.push(stallerId);
-        localStorage.setItem('likedStallers', JSON.stringify(likedStallers));
-    });
-}
-
-</script>
-{% endblock script %}
