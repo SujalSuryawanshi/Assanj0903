@@ -658,4 +658,26 @@ def rater_list(request):
     return render(request, 'rater_list.html', context)
 
 
+from django.http import JsonResponse
+
+from django.contrib.auth.decorators import login_required
+
+@login_required  # Ensure this view is only accessible by logged-in users
+def like_staller(request, staller_id):
+    staller = get_object_or_404(Staller, id=staller_id)
+    
+    # Check if the user already liked this staller
+    if UserLike.objects.filter(user=request.user, staller=staller).exists():
+        return JsonResponse({'error': 'You have already liked.'}, status=400)
+
+    # Increment the like count
+    staller.likes += 1
+    staller.save()
+
+    # Record the like in the UserLike model
+    UserLike.objects.create(user=request.user, staller=staller)
+
+    return JsonResponse({'likes': staller.likes})
+
+
 
