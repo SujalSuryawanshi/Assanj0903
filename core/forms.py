@@ -80,6 +80,16 @@ class AddItemForm(forms.ModelForm):
 
 
 
+class EditItem(forms.ModelForm):
+    class Meta:
+        model = MenuItems
+        fields = ['menu_photo', 'name', 'foo_cat', 'normal_price','description']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+
 
 class MenuRatingForm(forms.ModelForm):
     class Meta:
