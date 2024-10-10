@@ -79,6 +79,7 @@ class EditPost(UpdateView):
 ##Menu-Item##
 @login_required
 def edit_menu_item(request, item_id):
+    staller = get_object_or_404(Staller, owner=request.user)
     menu_item = get_object_or_404(MenuItems, id=item_id, owner__owner=request.user)  # Ensure the user owns the item
 
     if request.method == 'POST':
@@ -88,9 +89,9 @@ def edit_menu_item(request, item_id):
             return redirect('detail', name=menu_item.owner)  # Redirect to the staller's detail page
     else:
         form = AddItemForm(instance=menu_item)  # Load the existing item into the form
+        form.fields['foo_cat'].queryset = Foo_Category.objects.filter(sh_owner=staller)
 
     return render(request, 'edits/edititem.html', {'form': form, 'menu_item': menu_item})
-
 ####____USER
 from .forms import CustomUserEditForm
 
