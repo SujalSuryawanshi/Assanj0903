@@ -56,7 +56,8 @@ class Staller(models.Model):
         ('friends', 'Friends'),
         ('couples', 'Couples'),
     ])
-     def get_average_survey(self):
+    
+    def get_average_survey(self):
         # Calculate survey data for all fields except owner_behaviour
         survey_count = Staller.objects.count()
 
@@ -78,7 +79,6 @@ class Staller(models.Model):
             'locality_preferred_for_counts': locality_counts,
             'locality_visited_with_counts': visited_with_counts,
         }
-
     def __str__(self):
         return self.name
 
