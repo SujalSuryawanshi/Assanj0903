@@ -147,3 +147,8 @@ class StallerSurveyForm(forms.ModelForm):
                 ('couples', 'Couples')
             ]),
         }
+   def clean_location_accuracy(self):
+        location_accuracy = self.cleaned_data.get('location_accuracy')
+        if location_accuracy < 0 or location_accuracy > 100:
+            raise forms.ValidationError("Location accuracy must be between 0 and 100.")
+        return location_accuracy
