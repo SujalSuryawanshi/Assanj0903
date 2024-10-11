@@ -4,6 +4,8 @@ from Main import settings
 from django.urls import reverse
 from embed_video.fields import EmbedVideoField
 from users.models import CustomUser
+from django.core.validators import MinValueValidator, MaxValueValidator 
+from django.db.models import Avg
 
 
 
