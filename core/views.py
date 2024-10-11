@@ -697,7 +697,7 @@ def staller_survey(request, staller_id):
                 request.user.points += 5
                 request.user.save()
 
-            return redirect('staller_detail', staller_id=staller.id)  # Redirect to the staller detail page
+            return redirect('detail', staller.name)  # Redirect to the staller detail page
     else:
         form = StallerSurveyForm(instance=staller)
 
