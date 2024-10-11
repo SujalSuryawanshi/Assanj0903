@@ -171,6 +171,7 @@ class ListView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         staller = self.get_object()
+        average_survey = staller.get_average_survey()
         
         if self.request.user.is_authenticated:
             is_following = Following.objects.filter(user=self.request.user, staller=staller).exists()
@@ -205,6 +206,7 @@ class ListView(DetailView):
         context['staller_rating_count'] = staller.ratings.count()
         menu_rating_counts = {item.id: item.foo_ratings.count() for item in staller.menu_items.all()}
         context['menu_rating_counts'] = menu_rating_counts
+        context['average_survey']=average_survey
         context['menu_items_by_category'] = {}
         for item in staller.menu_items.all():
             category = item.foo_cat
