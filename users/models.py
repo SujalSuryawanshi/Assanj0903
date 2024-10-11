@@ -41,6 +41,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     friends = models.ManyToManyField('self', symmetrical=True, blank=True)
+    points = models.IntegerField(default=0) 
 
     objects = CustomUserManager()
     
