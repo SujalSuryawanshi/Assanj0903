@@ -9,7 +9,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import authenticate
-from .forms import StallerForm,SignInForm, RatingForm, AddItemForm, MenuRatingForm, FooCategoryForm,NewOfferForm,EditOfferForm, CustomUserCreationForm, OTPForm
+from .forms import StallerForm,SignInForm, RatingForm, AddItemForm, MenuRatingForm, FooCategoryForm,NewOfferForm,EditOfferForm, CustomUserCreationForm, OTPForm, StallerSurveyForm
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q, Count, Avg
@@ -682,3 +682,23 @@ def like_staller(request, staller_id):
 
 
 
+
+
+def staller_survey(request, staller_id):
+    staller = get_object_or_404(Staller, id=staller_id)
+    
+    if request.method == 'POST':
+        form = StallerSurveyForm(request.POST, instance=staller)
+        if form.is_valid():
+            form.save()
+
+            # Increment user points by 5 after form submission
+            if request.user.is_authenticated:
+                request.user.points += 5
+                request.user.save()
+
+            return redirect('staller_detail', staller_id=staller.id)  # Redirect to the staller detail page
+    else:
+        form = StallerSurveyForm(instance=staller)
+
+    return render(request, 'staller_survey.html', {'form': form, 'staller': staller})
