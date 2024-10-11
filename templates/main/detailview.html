@@ -81,8 +81,6 @@
   {% endif %}
     </div>
   </div>
-  <div class="container mt-5">
-        <h2 class="text-center">{{ staller.name }}</h2>
 
         <div class="card mt-4">
             <div class="card-header">
@@ -119,8 +117,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
-<div>
+
   <h1 class="anton-regular">Items<br></h1>
     {% if user.is_authenticated %}
       {% if user.username|lower == stall.owner.username|lower %}
