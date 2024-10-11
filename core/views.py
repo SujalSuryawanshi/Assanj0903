@@ -327,7 +327,6 @@ def resend_otp_view(request, user_id):
     return redirect('verify_otp', user_id=user_id)  
 
 
-
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -343,6 +342,9 @@ def login_view(request):
             return redirect(next_url)
     else:
         form = AuthenticationForm()
+
+    return render(request, 'register/login.html', {'form': form})
+
 
 def logout_view(request):
     user = request.user
