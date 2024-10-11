@@ -81,7 +81,39 @@
   {% endif %}
     </div>
   </div>
-  
+  <div class="card-body">
+                <h5 class="card-title">Average Survey Results</h5>
+
+                <!-- Location Accuracy -->
+                <div class="mb-3">
+                    <h6>Location Accuracy:</h6>
+                    <span class="badge badge-success">Yes: {{ average_survey.location_accuracy_percentage }}%</span>
+                    <div class="progress mt-2" style="height: 25px;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" 
+                            style="width: {{ average_survey.location_accuracy_percentage }}%" 
+                            aria-valuenow="{{ average_survey.location_accuracy_percentage }}" 
+                            aria-valuemin="0" aria-valuemax="100">
+                            {{ average_survey.location_accuracy_percentage }}%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Locality Preferred For -->
+                <div class="mb-3">
+                    <h6>Locality Preferred For:</h6>
+                    {% for item in average_survey.locality_preferred_for_counts %}
+                        <span class="badge badge-primary">{{ item.locality_preferred_for }}: {{ item.count }} responses</span>
+                    {% endfor %}
+                </div>
+
+                <!-- Locality Visited With -->
+                <div class="mb-3">
+                    <h6>Locality Visited With:</h6>
+                    {% for item in average_survey.locality_visited_with_counts %}
+                        <span class="badge badge-warning">{{ item.locality_visited_with }}: {{ item.count }} responses</span>
+                    {% endfor %}
+                </div>
+            </div>
   <h1 class="anton-regular">Items<br></h1>
     {% if user.is_authenticated %}
       {% if user.username|lower == stall.owner.username|lower %}
