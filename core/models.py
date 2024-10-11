@@ -63,26 +63,28 @@ class Staller(models.Model):
     ])
     
     def get_average_survey(self):
-        # Calculate survey data for all fields except owner_behaviour
-        survey_count = Staller.objects.count()
+        # Calculate average survey data for this specific staller
+        survey_count = Staller.objects.filter(id=self.id).count()
 
         if survey_count == 0:
             return None
 
-        # Calculate percentage of "Yes" responses for location accuracy
-        total_location_accuracy = Staller.objects.aggregate(models.Avg('location_accuracy'))['location_accuracy__avg']
-
+        total_location_accuracy = Staller.objects.filter(id=self.id).aggregate(Avg('location_accuracy'))['location_accuracy__avg']
+        
+        # Note: You might want to adjust this to get actual behavior averages from related survey models if they exist
+        owner_behaviour_average = Staller.objects.filter(id=self.id).values('owner_behaviour').annotate(count=models.Count('owner_behaviour'))
 
         # Calculate counts for locality_preferred_for
-        locality_counts = Staller.objects.values('locality_preferred_for').annotate(count=models.Count('locality_preferred_for'))
+        locality_preferred_for_counts = Staller.objects.filter(id=self.id).values('locality_preferred_for').annotate(count=models.Count('locality_preferred_for'))
 
         # Calculate counts for locality_visited_with
-        visited_with_counts = Staller.objects.values('locality_visited_with').annotate(count=models.Count('locality_visited_with'))
+        locality_visited_with_counts = Staller.objects.filter(id=self.id).values('locality_visited_with').annotate(count=models.Count('locality_visited_with'))
 
         return {
-            'location_accuracy_percentage': total_location_accuracy,
-            'locality_preferred_for_counts': locality_counts,
-            'locality_visited_with_counts': visited_with_counts,
+            'location_accuracy_average': total_location_accuracy,
+            'owner_behaviour_average': owner_behaviour_average,
+            'locality_preferred_for_counts': locality_preferred_for_counts,
+            'locality_visited_with_counts': locality_visited_with_counts,
         }
     def __str__(self):
         return self.name
