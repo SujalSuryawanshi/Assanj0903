@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if user.is_authenticated %}
 <div class="container-fluid">
     <h1>Staller Survey</h1>
     <form method="POST">
@@ -27,4 +28,11 @@
         <button type="submit" class='btn btn-warning'>Submit</button>
     </form>
 </div>
+{% else %}
+<div class='container'>
+    <h1 class='text-center'>Log-in to view this page!</h1>
+    <a href="{% url 'login' %}" class='btn btn-success'>Login</a>
+    <a href="{% url 'signin' %}" class='btn btn-success'>Register</a>
+</div>
+{% endif %}
 {% endblock content %}
