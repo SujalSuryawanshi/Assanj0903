@@ -129,7 +129,11 @@ class StallerSurveyForm(forms.ModelForm):
                 'placeholder': 'Enter accuracy (0-100%)',
                 'class': 'form-control'  # You can add Bootstrap classes if needed
             }),
-            'surrounding_landmarks': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+            'surrounding_landmarks': forms.Textarea(attrs={
+                'rows': 3,
+                'cols': 40,
+                'class': 'form-control'  # Adding Bootstrap class for styling
+            }),
             'owner_behaviour': forms.RadioSelect(choices=[
                 ('bad', 'Bad'),
                 ('average', 'Average'),
@@ -147,7 +151,8 @@ class StallerSurveyForm(forms.ModelForm):
                 ('couples', 'Couples')
             ]),
         }
-   def clean_location_accuracy(self):
+
+    def clean_location_accuracy(self):
         location_accuracy = self.cleaned_data.get('location_accuracy')
         if location_accuracy < 0 or location_accuracy > 100:
             raise forms.ValidationError("Location accuracy must be between 0 and 100.")
