@@ -38,7 +38,10 @@ class Staller(models.Model):
     likes = models.PositiveIntegerField(default=0)
     
 
-    location_accuracy = models.BooleanField(default=False)  # Yes or No
+    location_accuracy = models.PositiveIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
+        help_text="Enter a percentage value between 0 and 100"
+    )  # Yes or No
     surrounding_landmarks = models.TextField(blank=True, null=True)
     owner_behaviour = models.CharField(max_length=10,default='Good', choices=[
         ('bad', 'Bad'),
@@ -65,8 +68,8 @@ class Staller(models.Model):
             return None
 
         # Calculate percentage of "Yes" responses for location accuracy
-        yes_location_accuracy = Staller.objects.filter(location_accuracy=True).count()
-        location_accuracy_percentage = (yes_location_accuracy / survey_count) * 100
+        total_location_accuracy = Staller.objects.aggregate(models.Avg('location_accuracy'))['location_accuracy__avg']
+
 
         # Calculate counts for locality_preferred_for
         locality_counts = Staller.objects.values('locality_preferred_for').annotate(count=models.Count('locality_preferred_for'))
@@ -75,7 +78,7 @@ class Staller(models.Model):
         visited_with_counts = Staller.objects.values('locality_visited_with').annotate(count=models.Count('locality_visited_with'))
 
         return {
-            'location_accuracy_percentage': location_accuracy_percentage,
+            'location_accuracy_percentage': total_location_accuracy,
             'locality_preferred_for_counts': locality_counts,
             'locality_visited_with_counts': visited_with_counts,
         }
