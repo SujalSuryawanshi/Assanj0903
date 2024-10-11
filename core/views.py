@@ -327,6 +327,7 @@ def resend_otp_view(request, user_id):
     return redirect('verify_otp', user_id=user_id)  
 
 
+
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -336,11 +337,12 @@ def login_view(request):
             user.current_session_key = request.session.session_key
             user.save(update_fields=['current_session_key'])
             auth_hash = user.get_session_auth_hash()
-            return redirect('home')
+
+            # Get the next parameter or redirect to 'home'
+            next_url = request.GET.get('next', 'home')
+            return redirect(next_url)
     else:
         form = AuthenticationForm()
-    return render(request, 'register/login.html', {'form': form})
-
 
 def logout_view(request):
     user = request.user
