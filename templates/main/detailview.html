@@ -88,18 +88,10 @@
             </div>
             <div class="card-body">
                 <ul class="list-group">
-                    <li class="list-group-item">
+                    <li class="anton-regular">
                         <strong>Average Location Accuracy:</strong> {{ averages.location_accuracy_average|floatformat:1 }}%
                     </li>
-                    <li class="list-group-item">
-                        <strong>Owner Behaviour Average:</strong>
-                        <ul>
-                            {% for behaviour in averages.owner_behaviour_average %}
-                                <li>{{ behaviour.owner_behaviour }}: {{ behaviour.count }}</li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="list-group-item">
+                    <li class="anton-regular">
                         <strong>Locality Preferred For:</strong>
                         <ul>
                             {% for locality in averages.locality_preferred_for_counts %}
@@ -107,7 +99,7 @@
                             {% endfor %}
                         </ul>
                     </li>
-                    <li class="list-group-item">
+                    <li class="anton-regular">
                         <strong>Locality Visited With:</strong>
                         <ul>
                             {% for visited in averages.locality_visited_with_counts %}
