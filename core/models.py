@@ -40,18 +40,18 @@ class Staller(models.Model):
 
     location_accuracy = models.BooleanField(default=False)  # Yes or No
     surrounding_landmarks = models.TextField(blank=True, null=True)
-    owner_behaviour = models.CharField(max_length=10, choices=[
+    owner_behaviour = models.CharField(max_length=10,default='Good', choices=[
         ('bad', 'Bad'),
         ('average', 'Average'),
         ('good', 'Good'),
         ('great', 'Great'),
     ])
-    locality_preferred_for = models.CharField(max_length=10, choices=[
+    locality_preferred_for = models.CharField(max_length=10,default='Family', choices=[
         ('family', 'Family'),
         ('friends', 'Friends'),
         ('couples', 'Couples'),
     ])
-    locality_visited_with = models.CharField(max_length=10, choices=[
+    locality_visited_with = models.CharField(max_length=10,default='Family', choices=[
         ('family', 'Family'),
         ('friends', 'Friends'),
         ('couples', 'Couples'),
