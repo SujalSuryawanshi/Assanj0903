@@ -36,6 +36,7 @@ class Staller(models.Model):
     rating = models.FloatField(default=0)
     keywords = models.CharField(max_length=1000, default='spicy', null=True)
     likes = models.PositiveIntegerField(default=0)
+    points = models.IntegerField(default=0) 
 
     location_accuracy = models.BooleanField(default=False)  # Yes or No
     surrounding_landmarks = models.TextField(blank=True, null=True)
