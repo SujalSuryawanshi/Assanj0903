@@ -114,3 +114,30 @@ class EditOfferForm(forms.ModelForm):
     class Meta:
         model = New_offer
         fields = ['title', 'offer_photo', 'message']
+
+
+
+class StallerSurveyForm(forms.ModelForm):
+    class Meta:
+        model = Staller
+        fields = ['location_accuracy', 'surrounding_landmarks', 'owner_behaviour', 'locality_preferred_for', 'locality_visited_with']
+        widgets = {
+            'location_accuracy': forms.RadioSelect(choices=[(True, 'Yes'), (False, 'No')]),
+            'surrounding_landmarks': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
+            'owner_behaviour': forms.RadioSelect(choices=[
+                ('bad', 'Bad'),
+                ('average', 'Average'),
+                ('good', 'Good'),
+                ('great', 'Great')
+            ]),
+            'locality_preferred_for': forms.RadioSelect(choices=[
+                ('family', 'Family'),
+                ('friends', 'Friends'),
+                ('couples', 'Couples')
+            ]),
+            'locality_visited_with': forms.RadioSelect(choices=[
+                ('family', 'Family'),
+                ('friends', 'Friends'),
+                ('couples', 'Couples')
+            ]),
+        }
