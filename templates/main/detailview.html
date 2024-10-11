@@ -52,7 +52,7 @@
         {{ form.as_p }}
         <button type="submit" class='btn btn-info'>Submit Rating</button>
       </form>        
-        <a class="btn btn-primary" href="{% url 'staller_survey' stall.id %}" class="alert-link">Login to follow</a>
+        <a class="btn btn-success" href="{% url 'staller_survey' stall.id %}" class="alert-link">Help us improve</a>
       {% else %}
       <p class='home-card-text'>You need to be logged in to rate this staller.</p>
       {% endif %}
