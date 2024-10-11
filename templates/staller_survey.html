@@ -1,38 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 {% if user.is_authenticated %}
-<div class="container-fluid">
-    <h1>Staller Survey</h1>
-    <form method="POST">
-        {% csrf_token %}
-        <div>
-            <label class="text-center">How accurate was the location?</label>
-            {{ form.location_accuracy }}
+<div class="container mt-5">
+        <div class="form-container">
+            <h1>Staller Survey</h1>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary btn-block mt-4">Submit</button>
+            </form>
         </div>
-        <div>
-            <label class="text-center">Provide any surrounding landmarks if you know any:</label>
-            {{ form.surrounding_landmarks }}
-        </div>
-        <div>
-            <label class="text-center">How was the owner's behaviour?</label>
-            {{ form.owner_behaviour }}
-        </div>
-        <div>
-            <label class="text-center">Was the locality preferred for family/friends/couples?</label>
-            {{ form.locality_preferred_for }}
-        </div>
-        <div>
-            <label class="text-center">Which locality is preferred by you to visit with family/friends/couples?</label>
-            {{ form.locality_visited_with }}
-        </div>
-        <button type="submit" class='btn btn-warning'>Submit</button>
-    </form>
-</div>
-{% else %}
-<div class='container'>
-    <h1 class='text-center'>Log-in to view this page!</h1>
-    <a href="{% url 'login' %}" class='btn btn-success'>Login</a>
-    <a href="{% url 'signin' %}" class='btn btn-success'>Register</a>
-</div>
+    </div>
 {% endif %}
 {% endblock content %}
