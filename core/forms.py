@@ -122,7 +122,13 @@ class StallerSurveyForm(forms.ModelForm):
         model = Staller
         fields = ['location_accuracy', 'surrounding_landmarks', 'owner_behaviour', 'locality_preferred_for', 'locality_visited_with']
         widgets = {
-            'location_accuracy': forms.RadioSelect(choices=[(True, 'Yes'), (False, 'No')]),
+            'location_accuracy': forms.NumberInput(attrs={
+                'type': 'number',
+                'min': 0,
+                'max': 100,
+                'placeholder': 'Enter accuracy (0-100%)',
+                'class': 'form-control'  # You can add Bootstrap classes if needed
+            }),
             'surrounding_landmarks': forms.Textarea(attrs={'rows': 3, 'cols': 40}),
             'owner_behaviour': forms.RadioSelect(choices=[
                 ('bad', 'Bad'),
