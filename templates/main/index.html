@@ -13,7 +13,7 @@
 <div class='description'>
 {% for cats in cat %}  
 <a href="{% url "category" cats.cat_name %}">
-  <button type="button" class="btn-off">{{cats.cat_name}}</button>
+  <button type="button" class="btn btn-warning">{{cats.cat_name}}</button>
 </a>
 {% endfor %}
 <br>
