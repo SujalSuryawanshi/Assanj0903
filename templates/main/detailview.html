@@ -52,7 +52,6 @@
         {{ form.as_p }}
         <button type="submit" class='btn btn-info'>Submit Rating</button>
       </form>        
-        <a class="btn btn-success" href="{% url 'staller_survey' stall.id %}" class="alert-link">Help us improve</a>
       {% else %}
       <p class='home-card-text'>You need to be logged in to rate this staller.</p>
       {% endif %}
@@ -81,34 +80,6 @@
   {% endif %}
     </div>
   </div>
-
-        <div class="card mt-4">
-            <div class="card-header">
-                <h3>Average Survey Results</h3>
-            </div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="anton-regular">
-                        <strong>Average Location Accuracy:</strong> {{ averages.location_accuracy_average|floatformat:1 }}%
-                    </li>
-                    <li class="anton-regular">
-                        <strong>Locality Preferred For:</strong>
-                        <ul>
-                            {% for locality in averages.locality_preferred_for_counts %}
-                                <li>{{ locality.locality_preferred_for }}: {{ locality.count }}</li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li class="anton-regular">
-                        <strong>Locality Visited With:</strong>
-                        <ul>
-                            {% for visited in averages.locality_visited_with_counts %}
-                                <li>{{ visited.locality_visited_with }}: {{ visited.count }}</li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                </ul>
-            </div>
 
   <h1 class="anton-regular">Items<br></h1>
     {% if user.is_authenticated %}
