@@ -47,10 +47,12 @@
       {% if user.is_authenticated %}
       {% if stall.rush == True %}
         <h3 class='home-card-text'>Not accepting orders</h3>
+      <br>
       {% else %}
-        <a href='{% url "pay" stall.id %}'>Call! Whatsapp! Confirm! Get!</a><br>
+        <h3 class='home-card-text'>QR:</h3><a href='{% url "pay" stall.id %}'>Call! Pay QR! Confirm WhatsApp! Get!</a><br>
         <h3 class='home-card-text'>Contact:</h3>
         <a href="tel:{{ stall.contact }}">{{ stall.contact }}</a>    
+      <br>
       {% endif %}
       <h3 class='home-card-text'>Rate this Staller</h3>
       {% if form %}
