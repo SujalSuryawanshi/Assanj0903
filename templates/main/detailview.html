@@ -46,6 +46,7 @@
       <br>
       {% if user.is_authenticated %}
       <h3 class='home-card-text'>Rate this Staller</h3>
+      <a href='{% url "pay" stall.id %}'>Call, pay and Order!</a>
       {% if form %}
       <form method="post" action="{% url 'detail' name=stall.name %}" class='home-card-text'>
         {% csrf_token %}
