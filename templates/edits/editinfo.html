@@ -10,7 +10,7 @@ Edit_Details
 <br>
 <h1 class='text-center'>Edit {{ staller.name }}</h1>
 <div class='container'>
-    <form method="post" class='text-center'>
+    <form method="post" class='text-center' enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
         <button type="submit" class='btn btn-success'>Save</button>
