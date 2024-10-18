@@ -168,8 +168,8 @@ AWS_SECRET_ACCESS_KEY = 'W/yfg1qkjNeot/ik4uZ7fjY+fn5x/QLqjQtpS2Ed'
 AWS_STORAGE_BUCKET_NAME = 'assanj09'
 AWS_S3_SIGNATURE_NAME='s3v4'
 AWS_S3_REGION_NAME = 'eu-north-1'
-  # To avoid overwriting existing files
-# Ensure you're using public URLs instead of pre-signed URLs
+AWS_QUERYSTRING_AUTH = False
+
 
 
 
