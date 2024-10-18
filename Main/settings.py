@@ -141,7 +141,7 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files
-STATIC_URL = 'https://assanj.s3.eu-north-1.amazonaws.com/staticfile/'
+STATIC_URL = 'https://assanj09.s3.eu-north-1.amazonaws.com/staticfile/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile')
 
@@ -153,7 +153,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # GOOGLE_MAPS_API_KEY = env('GOOGLE_MAPS_API_KEY')
 
 # Media
-MEDIA_URL = '/media/'
+MEDIA_URL = f'https://assanj09.s3.amazonaws.com/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CSRF_TRUSTED_ORIGINS = [
