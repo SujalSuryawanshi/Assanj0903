@@ -45,8 +45,14 @@
       <p class='home-card-text'>{{ stall.rating|star_rating }} ({{ staller_rating_count }} ratings)</p>      
       <br>
       {% if user.is_authenticated %}
+      {% if stall.rush == True %}
+        <h3 class='home-card-text'>Not accepting orders</h3>
+      {% else %}
+        <a href='{% url "pay" stall.id %}'>Call! Whatsapp! Confirm! Get!</a><br>
+        <h3 class='home-card-text'>Contact:</h3>
+        <a href="tel:{{ stall.contact }}">{{ stall.contact }}</a>    
+      {% endif %}
       <h3 class='home-card-text'>Rate this Staller</h3>
-      <a href='{% url "pay" stall.id %}'>Call, pay and Order!</a>
       {% if form %}
       <form method="post" action="{% url 'detail' name=stall.name %}" class='home-card-text'>
         {% csrf_token %}
@@ -73,7 +79,6 @@
       {% else %}
       <a class="btn btn-primary" href="{% url 'login' %}?next={{ request.path }}" class="alert-link">Login to follow</a>
       {% endif %}
-      <p class="card-text"><small class="text-muted">Contact: {{stall.contact}}</small></p>
       {% if user.is_authenticated %}
       {% if user.username|lower == stall.owner.username|lower %}
           <a href="{% url 'edit_info' stall.pk %}" class='btn btn-primary'>Edit Details</a>
