@@ -714,3 +714,10 @@ def staller_survey(request, staller_id):
         form = StallerSurveyForm(instance=staller)
 
     return render(request, 'staller_survey.html', {'form': form, 'staller': staller})
+
+
+
+
+def pay_page_view(request, staller_id):
+    obj = Staller.objects.get(pk=staller_id)
+    return render(request, 'paypage.html', {'object': obj})
