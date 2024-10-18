@@ -169,6 +169,12 @@ AWS_STORAGE_BUCKET_NAME = 'assanj09'
 AWS_S3_SIGNATURE_NAME='s3v4'
 AWS_S3_REGION_NAME = 'eu-north-1'
   # To avoid overwriting existing files
+# Ensure you're using public URLs instead of pre-signed URLs
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',  # Cache control for 24 hours
+}
 
 
 # Email Backend
