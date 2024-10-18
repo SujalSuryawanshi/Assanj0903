@@ -71,10 +71,16 @@ class Home(View):
 ###    EDIT_VIEW     ###
 ##Staller##
 class EditPost(UpdateView):
-    model=Staller
-    fields=['address', 'contact',
-            'timings', 'keywords']
-    template_name='edits/editinfo.html'
+    model = Staller
+    form_class = StallerForm
+    template_name = 'edits/editinfo.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user  # If you need to associate the form with the user
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('detail', kwargs={'name': self.object.name})
 
 ##Menu-Item##
 @login_required
