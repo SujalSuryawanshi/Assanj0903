@@ -163,16 +163,12 @@ CSRF_TRUSTED_ORIGINS = [
 
 # AWS Settings
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = 'AKIAQXUIXTV4MGIQMD7A'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY_ID = 'AKIAQXUIXTV4JU2RHEUE'
+AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'assanj09'
 AWS_S3_SIGNATURE_NAME='s3v4'
 AWS_S3_REGION_NAME = 'eu-north-1'
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-AWS_S3_VERITY = True
-AWS_QUERYSTRING_AUTH = False
-AWS_S3_FILE_OVERWRITE = False  # To avoid overwriting existing files
+  # To avoid overwriting existing files
 
 
 # Email Backend
