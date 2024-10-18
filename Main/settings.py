@@ -162,6 +162,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # AWS Settings
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_ACCESS_KEY_ID = 'AKIAQXUIXTV4MYNKKQ6Y'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'assanj'
@@ -171,7 +172,6 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_VERITY = True
 AWS_QUERYSTRING_AUTH = False
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Email Backend
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
