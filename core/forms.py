@@ -56,8 +56,8 @@ class StallerForm(forms.ModelForm):
     class Meta:
         model = Staller
         fields = [
-           'address', 'category', 'video', 'contact',
-            'timings', 'keywords'
+           'address', 'category', 'contact',
+            'timings', 'keywords','payr'
         ]
 
 
