@@ -172,6 +172,8 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_VERITY = True
 AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False  # To avoid overwriting existing files
+
 
 # Email Backend
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
