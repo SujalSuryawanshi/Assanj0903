@@ -7,10 +7,13 @@
 <br>
 <br>
 <br>
+{% if object.payr %}
 <h1 class='text-center'>
-    <img src="{{ object.payr.url }}" alt="{{object.name}}" style="max-width: 300px; max-height: 300px;">
-    <h1>
-    <h1>
-    {{ object.image.url }}
-    </h1>
+        <img src="{{ object.payr.url }}" alt="{{object.name}}" style="max-width: 300px; max-height: 300px;">
+</h1>
+{% else %}
+<h1 class=text-center>
+    No Payment for this shop
+</h1>
+{% endif %}
     {% endblock content %}
