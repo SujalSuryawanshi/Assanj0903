@@ -38,6 +38,7 @@ class Staller(models.Model):
     rating = models.FloatField(default=0)
     keywords = models.CharField(max_length=1000, default='spicy', null=True)
     payr=models.ImageField(upload_to='images/',null=True,blank=True)
+    rush=models.BooleanField(default=False)
     likes = models.PositiveIntegerField(default=0)
     
     
